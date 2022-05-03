@@ -1,4 +1,4 @@
-const { collection, addDoc } = require("firebase/firestore");
+const { collection, addDoc, Timestamp } = require("firebase/firestore");
 
 const { firestore } = require("../config/firebase.config");
 
@@ -15,7 +15,6 @@ const addNewContact = async (req, res) => {
       time,
       message,
     } = req.body;
-
     const collectionReferecne = collection(firestore, "Contacts");
 
     const response = await addDoc(collectionReferecne, {
@@ -27,6 +26,7 @@ const addNewContact = async (req, res) => {
       date: date,
       time: time,
       message: message,
+      timestamp: Timestamp.fromDate(new Date()),
     });
 
     res.status(200).json(response);
