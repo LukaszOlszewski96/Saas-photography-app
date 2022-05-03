@@ -19,3 +19,5 @@ class Contact {
     this.message = message;
   }
 }
+
+module.exports = Contact;
