@@ -10,9 +10,4 @@ module.exports = {
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
   appId: process.env.APP_ID,
   measurementId: process.env.MEASUREMENT_ID,
-  mailchimpApiKey: process.env.MAILCHIMP_API_KEY,
-  us: process.env.US,
-  listID: process.env.LIST_ID,
-  stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-  stripeSecretKey: process.env.STRIPE_SECRET_KEY,
 };
