@@ -1,4 +1,9 @@
-const { collection, addDoc, Timestamp } = require("firebase/firestore");
+const {
+  collection,
+  addDoc,
+  getDocs,
+  Timestamp,
+} = require("firebase/firestore");
 
 const { firestore } = require("../config/firebase.config");
 
@@ -36,6 +41,25 @@ const addNewContact = async (req, res) => {
   }
 };
 
+const getContact = async (req, res) => {
+  try {
+    let contacts = [];
+    const collectionReferecne = collection(firestore, "Contacts");
+    const response = await getDocs(collectionReferecne);
+
+    const data = response.forEach((doc) => {
+      console.log(doc.data());
+      contacts.push(doc.id);
+      contacts.push(doc.data());
+    });
+    res.json(contacts);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   addNewContact,
+  getContact,
 };
