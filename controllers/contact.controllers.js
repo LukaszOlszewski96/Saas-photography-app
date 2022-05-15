@@ -41,18 +41,20 @@ const addNewContact = async (req, res) => {
   }
 };
 
-const getContact = async (req, res) => {
+//Get all contacts form Firestore
+const getAllContacts = async (req, res) => {
   try {
     let contacts = [];
     const collectionReferecne = collection(firestore, "Contacts");
     const response = await getDocs(collectionReferecne);
 
-    const data = response.forEach((doc) => {
-      console.log(doc.data());
-      contacts.push(doc.id);
+    response.forEach((doc) => {
+      // contacts.push(doc.id);
+      // contacts.push(doc.data().message);
       contacts.push(doc.data());
     });
-    res.json(contacts);
+
+    res.status(200).send(contacts);
   } catch (error) {
     console.log(error);
     res.status(400).send(error.message);
@@ -61,5 +63,5 @@ const getContact = async (req, res) => {
 
 module.exports = {
   addNewContact,
-  getContact,
+  getAllContacts,
 };

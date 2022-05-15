@@ -3,7 +3,7 @@ const { route } = require("express/lib/application");
 
 const {
   addNewContact,
-  getContact,
+  getAllContacts,
 } = require("../controllers/contact.controllers");
 
 const routes = express.Router();
@@ -11,7 +11,7 @@ const routes = express.Router();
 //route for add new contact
 routes.post("/mail/contact", addNewContact);
 
-routes.get("/mail/contact", getContact);
+routes.get("/mail/contact", getAllContacts);
 
 module.exports = {
   routes: routes,
