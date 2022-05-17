@@ -4,14 +4,17 @@ const { route } = require("express/lib/application");
 const {
   addNewContact,
   getAllContacts,
+  deleteContact,
 } = require("../controllers/contact.controllers");
 
 const routes = express.Router();
 
 //route for add new contact
-routes.post("/mail/contact", addNewContact);
-
-routes.get("/mail/contact", getAllContacts);
+routes
+  .route("/contacts")
+  .post(addNewContact)
+  .get(getAllContacts)
+  .delete(deleteContact);
 
 module.exports = {
   routes: routes,
@@ -21,7 +24,7 @@ module.exports = {
  * @swagger
  * components:
  *  schemas:
- *    Contacts:
+ *    Contact:
  *      type: object
  *      required:
  *        - first_name
@@ -60,53 +63,138 @@ module.exports = {
  *        message:
  *          type: string
  *          description: Contact details
- *
+ *      example:
+ *          id: 0
+ *          first_name: John Dell
+ *          email: john.dell@gmail.com
+ *          category_photo: wedding
+ *          city: Warsaw
+ *          street: street 54
+ *          date: 12/12/2022
+ *          time: 9:00
+ *          message: Hello it is test message
  */
 
 /**
  * @swagger
- *  tags:
- *    name: Contacts
- *    description: The contact managing API
+ * tags:
+ *   name: Contacts
+ *   description: The contact managing API
  */
 
 /**
  * @swagger
  * /contacts:
- *  get:
- *   summary: Returns the list of all the contacts
- *   tags: [Contacts]
- *   responses:
+ *   get:
+ *     summary: Returns the list of all the contacts
+ *     tags: [Contacts]
+ *     responses:
  *       200:
- *         description: The list of the books
+ *         description: The list of the contacts
  *         content:
- *           aplication/json:
+ *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Contacts'
+ *                 $ref: '#/components/schemas/Contact'
+ */
+
+/**
+ * @swagger
+ * /contacts/{id}:
+ *   get:
+ *     summary: Get the contact by id
+ *     tags: [Contacts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The contact id
+ *     responses:
+ *       200:
+ *         description: The contact description by id
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ *       404:
+ *         description: The contact was not found
  */
 
 /**
  * @swagger
  * /contacts:
- *  post:
- *    summary: Create a new contact
- *    tags: [Contants]
+ *   post:
+ *     summary: Create a new contact
+ *     tags: [Contacts]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Contact'
+ *     responses:
+ *       200:
+ *         description: The contact was successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Contact'
+ *       500:
+ *         description: Some server error
+ */
+
+/**
+ * @swagger
+ * /contacts/{id}:
+ *  put:
+ *    summary: Update the contact by the id
+ *    tags: [Contacts]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The contact id
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Contacts'
- *      responses:
- *        200:
- *          description: The contact was successfully added
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/components/schemas/Contacts'
- *        500:
- *          description: Some server error
+ *            $ref: '#/components/schemas/Contact'
+ *    responses:
+ *      200:
+ *        description: The contact was updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Contact'
+ *      404:
+ *        description: The contact was not found
+ *      500:
+ *        description: Some error happened
+ */
+
+/**
+ * @swagger
+ * /contacts/{id}:
+ *   delete:
+ *     summary: Remove the contact by id
+ *     tags: [Contacts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The contact id
  *
+ *     responses:
+ *       200:
+ *         description: The contact was deleted
+ *       404:
+ *         description: The contact was not found
  */

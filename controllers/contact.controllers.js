@@ -1,8 +1,11 @@
+const res = require("express/lib/response");
 const {
   collection,
   addDoc,
   getDocs,
+  deleteDoc,
   Timestamp,
+  doc,
 } = require("firebase/firestore");
 
 const { firestore } = require("../config/firebase.config");
@@ -61,7 +64,24 @@ const getAllContacts = async (req, res) => {
   }
 };
 
+//Delete contact
+const deleteContact = async (res, req) => {
+  try {
+    const response = await deleteDoc(
+      doc(firestore, "Contacts", "bZmEwgAbjwXZc97U92XR")
+    );
+
+    // res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    // res.status(400).send(error.message);
+  }
+};
+
+deleteContact();
+
 module.exports = {
   addNewContact,
   getAllContacts,
+  deleteContact,
 };
